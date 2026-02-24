@@ -18,7 +18,11 @@ services:
     volumes: ['.:/app']
     ports: ["8000:8000"]
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/symmy_task
+      - DJANGO_SETTINGS_MODULE=core.settings.prod
+      - SECRET_KEY=change-me-in-production
+      - ALLOWED_HOSTS=localhost,0.0.0.0
+      - SECURE_SSL_REDIRECT=false
+      - POSTGRES_HOST=db
       - CELERY_BROKER_URL=redis://redis:6379/0
       - RUN_MIGRATIONS=true
     depends_on: [db, redis]
@@ -27,7 +31,11 @@ services:
     command: celery -A core worker --loglevel=info
     volumes: ['.:/app']
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/symmy_task
+      - DJANGO_SETTINGS_MODULE=core.settings.prod
+      - SECRET_KEY=change-me-in-production
+      - ALLOWED_HOSTS=localhost
+      - SECURE_SSL_REDIRECT=false
+      - POSTGRES_HOST=db
       - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on: [web]
   beat:
@@ -35,7 +43,11 @@ services:
     command: celery -A core beat --loglevel=info
     volumes: ['.:/app']
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/symmy_task
+      - DJANGO_SETTINGS_MODULE=core.settings.prod
+      - SECRET_KEY=change-me-in-production
+      - ALLOWED_HOSTS=localhost
+      - SECURE_SSL_REDIRECT=false
+      - POSTGRES_HOST=db
       - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on: [web]
 volumes:

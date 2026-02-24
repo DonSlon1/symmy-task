@@ -1,9 +1,9 @@
 django>=4.2
-djangorestframework
 celery[redis]
 psycopg2-binary
 requests
+environs
 pytest
 pytest-django
 responses
-environs
+coverage
